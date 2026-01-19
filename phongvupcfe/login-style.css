@@ -1,0 +1,49 @@
+/* Input chung */
+.login-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #d1d5db;
+    border-radius: 1.5rem;
+    outline: none;
+    transition: all 0.2s;
+}
+.login-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.3);
+}
+
+.login-btn {
+    background-color: #6366f1;
+    color: white;
+    font-weight: bold;
+    padding: 1rem 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+.login-btn:hover {
+    background-color: #4f46e5;
+}
+.login-btn:active {
+    transform: scale(0.95);
+}
+
+.modal-close-btn {
+    background-color: #6366f1;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.modal-close-btn:hover {
+    background-color: #4f46e5;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+}

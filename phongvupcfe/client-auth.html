@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập - PHONGVUPC Client</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="login-style.css"> </head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row min-h-[550px]">
+        <div class="md:w-1/2 bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100">
+            <img src="assets/logo.png" alt="Logo" class="h-40 mb-4">
+            <h2 class="text-2xl font-black tracking-tighter text-gray-800 uppercase">PhongVuPC Store</h2>
+            <p class="text-gray-400 text-sm mt-2 font-medium">Trải nghiệm mua sắm PC đỉnh cao</p>
+        </div>
+
+        <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+            
+            <div id="login-section" class="animate-fadeIn">
+                <h1 class="text-3xl font-bold text-gray-800 mb-8">Đăng nhập</h1>
+                <form id="client-login-form" class="space-y-4">
+                    <input type="text" id="login-username" placeholder="Tên đăng nhập" class="login-input w-full px-4 py-3 border-2 border-black rounded-xl outline-none">
+                    <div class="relative">
+                        <input type="password" id="login-password" placeholder="Mật khẩu" class="login-input w-full px-4 py-3 border-2 border-black rounded-xl outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-[#818cf8] hover:bg-[#7079f0] text-black font-bold py-3 rounded-2xl shadow-lg mt-4 transition-all active:scale-95">Xác minh</button>
+                </form>
+                <p class="mt-8 text-center text-sm text-gray-500">
+                    Chưa có tài khoản? <a href="javascript:void(0)" onclick="toggleAuth(false)" class="text-indigo-600 font-bold hover:underline">Đăng ký ngay</a>
+                </p>
+            </div>
+
+            <div id="register-section" class="hidden animate-fadeIn">
+                <h1 class="text-3xl font-bold text-gray-800 mb-8">Tạo tài khoản</h1>
+                <form id="client-register-form" class="space-y-3">
+                    <input type="text" id="reg-username" placeholder="Tên đăng nhập *" class="login-input w-full px-4 py-2 border-2 border-black rounded-xl outline-none">
+                    <input type="password" id="reg-password" placeholder="Mật khẩu *" class="login-input w-full px-4 py-2 border-2 border-black rounded-xl outline-none">
+                    <input type="text" id="reg-fullname" placeholder="Họ và tên" class="login-input w-full px-4 py-2 border-2 border-black rounded-xl outline-none">
+                    <input type="email" id="reg-email" placeholder="Email liên hệ" class="login-input w-full px-4 py-2 border-2 border-black rounded-xl outline-none">
+                    <button type="submit" class="w-full bg-emerald-400 hover:bg-emerald-500 text-black font-bold py-3 rounded-2xl shadow-lg mt-4 transition-all active:scale-95">Đăng ký</button>
+                </form>
+                <p class="mt-8 text-center text-sm text-gray-500">
+                    Đã có tài khoản? <a href="javascript:void(0)" onclick="toggleAuth(true)" class="text-indigo-600 font-bold hover:underline">Quay lại đăng nhập</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="client-auth.js"></script>
+</body>
+</html>

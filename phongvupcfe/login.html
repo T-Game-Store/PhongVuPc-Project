@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - PHONGVUPC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="login-style.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="flex flex-col md:flex-row items-center max-w-4xl w-full gap-12 md:gap-24 bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <div class="w-full md:w-1/2 flex justify-center h-80 md:h-auto items-center p-8">
+            <img src="assets/logo.png" alt="PHONGVUPC Logo" class="h-48 md:h-64 w-auto">
+        </div>
+
+        <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-10 text-center md:text-left">Đăng nhập</h1>
+            
+            <form id="login-form" class="space-y-6">
+                <div class="relative">
+                    <input type="text" id="username" placeholder="Tên đăng nhập" class="login-input">
+                </div>
+                <div class="relative">
+                    <input type="password" id="password" placeholder="Mật khẩu" class="login-input">
+                    <button type="button" id="toggle-password" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+                <div class="flex justify-center md:justify-start pt-4">
+                    <button type="submit" class="login-btn">Xác minh</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center animate-fadeIn">
+            <div id="modal-icon" class="text-6xl mb-4"></div>
+            <h2 id="modal-title" class="text-2xl font-bold mb-2"></h2>
+            <p id="modal-message" class="text-gray-600 mb-6"></p>
+            <button id="modal-close" class="modal-close-btn">Đóng</button>
+        </div>
+    </div>
+
+    <script src="login-script.js"></script>
+</body>
+</html>
