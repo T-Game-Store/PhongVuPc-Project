@@ -94,9 +94,15 @@ function showUserModal(user = null) {
             const url = isEdit ? `${API_USER}/${user.id}` : `${API_USER}/register`;
             const method = isEdit ? 'PUT' : 'POST';
             
+            const userInfo = JSON.parse(localStorage.getItem('user_info'));
+            const actor = userInfo ? userInfo.username : 'SYSTEM';
+
             const res = await fetch(url, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Actor': actor
+                },
                 body: JSON.stringify(result.value)
             });
             
@@ -120,7 +126,16 @@ window.confirmDeleteUser = (id) => {
         confirmButtonText: 'Đồng ý khóa'
     }).then(async (result) => {
         if (result.isConfirmed) {
-            const res = await fetch(`${API_USER}/${id}`, { method: 'DELETE' });
+            const userInfo = JSON.parse(localStorage.getItem('user_info'));
+            const actor = userInfo ? userInfo.username : 'SYSTEM';
+
+            const res = await fetch(`${API_USER}/${id}`, { 
+                method: 'DELETE',
+                headers: {
+                    'X-Actor': actor
+                }
+            });
+
             if (res.ok) {
                 Swal.fire('Đã khóa!', '', 'success');
                 loadUserPage();

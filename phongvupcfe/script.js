@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
         case "customers":
           loadCustomerPage();
           break;
+         case "products":
+          loadProducts();
+          break;
       }
     });
   });

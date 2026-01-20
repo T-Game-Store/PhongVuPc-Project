@@ -3,6 +3,7 @@ package com.example.phongvupcbe.service.impl;
 import com.example.phongvupcbe.model.Category;
 import com.example.phongvupcbe.model.dto.CategoryRequest;
 import com.example.phongvupcbe.repository.CategoryRepository;
+import com.example.phongvupcbe.service.AuditLogService;
 import com.example.phongvupcbe.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     @Override
-    public Category createCategory(CategoryRequest request) {
+    public Category createCategory(CategoryRequest request, String actor) {
         if (categoryRepository.existsByName(request.getName())) {
             throw new RuntimeException("Tên danh mục đã tồn tại!");
         }
@@ -36,9 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
         category.setImageUrl(request.getImageUrl());
         category.setSlug(request.getName().toLowerCase().replaceAll("\\s+", "-"));
 
-        return categoryRepository.save(category);
-    }
+        Category savedCategory = categoryRepository.save(category);
+        auditLogService.saveLog(actor, "CATEGORY", "CREATE", "đã thêm danh mục: " + savedCategory.getName());
 
+        return savedCategory;
+    }
 
     @Override
     public List<Category> getAllCategories() {
@@ -46,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long id, CategoryRequest request) {
+    public Category updateCategory(Long id, CategoryRequest request, String actor) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục"));
 
@@ -62,14 +68,17 @@ public class CategoryServiceImpl implements CategoryService {
         category.setSlug(request.getName().toLowerCase().replaceAll("\\s+", "-"));
         category.setUpdatedAt(LocalDateTime.now());
 
-        return categoryRepository.save(category);
+        Category updatedCategory = categoryRepository.save(category);
+        auditLogService.saveLog(actor, "CATEGORY", "UPDATE", "đã cập nhật danh mục: " + updatedCategory.getName());
+
+        return updatedCategory;
     }
 
-
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Long id, String actor) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục để xóa!"));
+
         String imageUrl = category.getImageUrl();
         if (imageUrl != null && !imageUrl.isEmpty()) {
             try {
@@ -80,6 +89,8 @@ public class CategoryServiceImpl implements CategoryService {
                 e.printStackTrace();
             }
         }
+
         categoryRepository.delete(category);
+        auditLogService.saveLog(actor, "CATEGORY", "DELETE", "đã xóa danh mục: " + category.getName());
     }
 }

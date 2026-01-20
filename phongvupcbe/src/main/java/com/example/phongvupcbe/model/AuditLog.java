@@ -5,28 +5,18 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "suppliers")
+@Table(name = "audit_logs")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class Supplier {
+public class AuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    private String type;
-
-    private String contactName;
-    private String email;
-    private String phone;
-
+    private Long userId;
+    private String username;
+    private String module;
+    private String action;
     @Column(columnDefinition = "NVARCHAR(MAX)")
-    private String address;
-
-    @Column(length = 20)
-    private String status = "active";
-
+    private String dataAfter;
     private LocalDateTime createdAt = LocalDateTime.now();
 }

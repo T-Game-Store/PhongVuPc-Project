@@ -1,13 +1,18 @@
-const BASE_URL = 'http://localhost:8080';
-const API_CATEGORY = `${BASE_URL}/api/categories`;
-const NO_IMAGE = 'https://placehold.co/100x100?text=No+Image';
+const CAT_BASE_URL = 'http://localhost:8080';
+const API_CATEGORY = `${CAT_BASE_URL}/api/categories`;
+const CAT_NO_IMAGE = 'https://placehold.co/100x100?text=No+Image';
+
+function getActor() {
+    const userInfo = JSON.parse(localStorage.getItem('user_info'));
+    return userInfo ? userInfo.username : 'SYSTEM';
+}
 
 function resolveImageUrl(imageUrl) {
-    if (!imageUrl) return NO_IMAGE;
+    if (!imageUrl) return CAT_NO_IMAGE;
     if (imageUrl.startsWith('http')) return imageUrl;
     let path = imageUrl;
     if (!path.startsWith('/')) path = '/' + path;
-    return BASE_URL + path;
+    return CAT_BASE_URL + path;
 }
 
 async function loadCategoriesPage() {
@@ -42,17 +47,19 @@ async function loadCategoriesPage() {
         const res = await fetch(API_CATEGORY);
         const data = await res.json();
         const tbody = document.getElementById('category-table-body');
+
         if (!data || data.length === 0) {
             tbody.innerHTML = `<tr><td colspan="4" class="text-center py-10 text-gray-400">Chưa có danh mục nào.</td></tr>`;
             return;
         }
+
         tbody.innerHTML = data.map(cat => {
             const imgSrc = resolveImageUrl(cat.imageUrl);
             return `
                 <tr class="hover:bg-gray-50 transition border-b border-gray-50 last:border-0">
                     <td class="px-6 py-4">
                         <img src="${imgSrc}"
-                             onerror="this.src='${NO_IMAGE}'"
+                             onerror="this.src='${CAT_NO_IMAGE}'"
                              class="w-12 h-12 rounded-lg object-cover border border-gray-100 shadow-sm">
                     </td>
                     <td class="px-6 py-4">
@@ -146,7 +153,10 @@ function renderAddCategoryForm() {
         if (res.isConfirmed) {
             await fetch(API_CATEGORY, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Actor': getActor()
+                },
                 body: JSON.stringify(res.value)
             });
             loadCategoriesPage();
@@ -191,7 +201,10 @@ window.openEditModal = (cat) => {
         if (res.isConfirmed) {
             await fetch(`${API_CATEGORY}/${cat.id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Actor': getActor()
+                },
                 body: JSON.stringify(res.value)
             });
             loadCategoriesPage();
@@ -207,7 +220,10 @@ window.confirmDelete = (id) => {
         confirmButtonColor: '#ef4444'
     }).then(async res => {
         if (res.isConfirmed) {
-            await fetch(`${API_CATEGORY}/${id}`, { method: 'DELETE' });
+            await fetch(`${API_CATEGORY}/${id}`, { 
+                method: 'DELETE',
+                headers: { 'X-Actor': getActor() }
+            });
             loadCategoriesPage();
         }
     });
